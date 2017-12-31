@@ -44,6 +44,10 @@ target 'THAQI' do
   pod 'RNDeviceInfo', :path => '../node_modules/react-native-device-info'
   pod 'RNI18n', :path => '../node_modules/react-native-i18n'
 
+  pod 'react-native-onesignal', :path => '../node_modules/react-native-onesignal'
+
+  pod 'react-native-safari-view', :path => '../node_modules/react-native-safari-view'
+
 end
 
 post_install do |installer|

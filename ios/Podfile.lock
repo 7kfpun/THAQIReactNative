@@ -54,6 +54,7 @@ PODS:
     - nanopb/encode (= 0.3.8)
   - nanopb/decode (0.3.8)
   - nanopb/encode (0.3.8)
+  - OneSignal (2.6.0)
   - Protobuf (3.5.0)
   - React (0.51.0):
     - React/Core (= 0.51.0)
@@ -61,6 +62,11 @@ PODS:
     - GoogleMaps (= 2.5.0)
     - React
   - react-native-maps (0.19.0):
+    - React
+  - react-native-onesignal (3.0.7):
+    - OneSignal
+    - React
+  - react-native-safari-view (1.0.0):
     - React
   - React/BatchedBridge (0.51.0):
     - React/Core
@@ -113,6 +119,8 @@ DEPENDENCIES:
   - GoogleMaps
   - react-native-google-maps (from `../node_modules/react-native-maps`)
   - react-native-maps (from `../node_modules/react-native-maps`)
+  - react-native-onesignal (from `../node_modules/react-native-onesignal`)
+  - react-native-safari-view (from `../node_modules/react-native-safari-view`)
   - React/BatchedBridge (from `../node_modules/react-native`)
   - React/Core (from `../node_modules/react-native`)
   - React/RCTActionSheet (from `../node_modules/react-native`)
@@ -137,6 +145,10 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-maps"
   react-native-maps:
     :path: "../node_modules/react-native-maps"
+  react-native-onesignal:
+    :path: "../node_modules/react-native-onesignal"
+  react-native-safari-view:
+    :path: "../node_modules/react-native-safari-view"
   RNDeviceInfo:
     :path: "../node_modules/react-native-device-info"
   RNFirebase:
@@ -159,15 +171,18 @@ SPEC CHECKSUMS:
   GoogleToolboxForMac: 2501e2ad72a52eb3dfe7bd9aee7dad11b858bd20
   GTMSessionFetcher: ebaa1f79a5366922c1735f1566901f50beba23b7
   nanopb: 5601e6bca2dbf1ed831b519092ec110f66982ca3
+  OneSignal: 4786d2ed24ea315ceff66d83cbd418af0cc94311
   Protobuf: 8a9838fba8dae3389230e1b7f8c104aa32389c03
   React: 352f02f1db6e4744f9a758527e13e3fdefbbd6ba
   react-native-google-maps: dc6d7644b0517e6e232644d2b66004714b91e152
   react-native-maps: d3b689927722398a12a4b3007fd9a0c60e1c48cd
+  react-native-onesignal: 9d55c8fa78c83ef01059890966ea2d88852b8d6d
+  react-native-safari-view: 955d7160d159241b8e9395d12d10ea0ef863dcdd
   RNDeviceInfo: dc3cbee96cd2392cf03d6ff6191dc15f1606a166
   RNFirebase: 22b1917fec663706907bc901ed665ac4f8b9bfd6
   RNI18n: cd4ddd958e326a2427b70f5474b3fb04aea793b2
   yoga: b5d96400ca8b2936965a7a6516da7c1177f432a3
 
-PODFILE CHECKSUM: 99a70c85c9dfbc64fbebbc9ebd54d01328229efd
+PODFILE CHECKSUM: 6b92756cdd265c7098113147ece6c40e329f8a84
 
 COCOAPODS: 1.2.1

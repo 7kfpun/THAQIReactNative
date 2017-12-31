@@ -20,11 +20,12 @@ import store from 'react-native-simple-store';
 import timer from 'react-native-timer';
 
 import AdMob from '../elements/admob';
-import I18n from '../utils/i18n';
+import Indicator from '../elements/indicator';
 import Marker from '../elements/marker';
 
 import { aqi } from '../utils/api';
 import { indexTypes } from '../utils/indexes';
+import I18n from '../utils/i18n';
 import tracker from '../utils/tracker';
 
 const { width, height } = Dimensions.get('window');
@@ -119,7 +120,7 @@ const styles = StyleSheet.create({
 export default class MainView extends Component<{}> {
   static navigationOptions = {
     header: null,
-    tabBarLabel: 'main',
+    tabBarLabel: I18n.t('main'),
     tabBarIcon: ({ tintColor }) => <Icon name="place" size={19} color={tintColor} />,
   };
 
@@ -248,8 +249,8 @@ export default class MainView extends Component<{}> {
     return {
       latitude: this.state.location.latitude,
       longitude: this.state.location.longitude,
-      latitudeDelta: this.state.gpsEnabled ? 0.2 : LATITUDE_DELTA,
-      longitudeDelta: this.state.gpsEnabled ? 0.2 * ASPECT_RATIO : LONGITUDE_DELTA,
+      latitudeDelta: this.state.gpsEnabled ? 0.6 : LATITUDE_DELTA,
+      longitudeDelta: this.state.gpsEnabled ? 0.6 * ASPECT_RATIO : LONGITUDE_DELTA,
     };
   }
 
@@ -319,7 +320,7 @@ export default class MainView extends Component<{}> {
                 >
                   <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', width: I18n.isTh ? station.areaTH.length * 6: station.areaEN.length * 6, marginLeft: 10 }}>
                     <Text style={styles.stationText}>{I18n.isTh ? station.areaTH : station.areaEN}</Text>
-                    <Icon name="chevron-right" size={24} color={'gray'} />
+                    {/* <Icon name="chevron-right" size={24} color={'gray'} /> */}
                   </View>
                 </TouchableOpacity>
               </MapView.Callout>
@@ -346,6 +347,8 @@ export default class MainView extends Component<{}> {
             {this.state.isLoading && <ActivityIndicator style={{ marginLeft: 5 }} />}
           </View>
         </TouchableOpacity>
+
+        <Indicator />
 
         {<TouchableOpacity
           style={styles.defaultLocation}

@@ -1,57 +1,49 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- * @flow
- */
-
-import React, { Component } from 'react';
 import {
   Platform,
-  StyleSheet,
-  Text,
-  View
 } from 'react-native';
 
-const instructions = Platform.select({
-  ios: 'Press Cmd+R to reload,\n' +
-    'Cmd+D or shake for dev menu',
-  android: 'Double tap R on your keyboard to reload,\n' +
-    'Shake or press menu button for dev menu',
-});
+import { StackNavigator, TabNavigator } from 'react-navigation';
+import { iOSColors } from 'react-native-typography';
 
-export default class App extends Component<{}> {
-  render() {
-    return (
-      <View style={styles.container}>
-        <Text style={styles.welcome}>
-          Welcome to React Native!
-        </Text>
-        <Text style={styles.instructions}>
-          To get started, edit App.js
-        </Text>
-        <Text style={styles.instructions}>
-          {instructions}
-        </Text>
-      </View>
-    );
-  }
+import Main from './app/views/main';
+import Settings from './app/views/settings';
+import Help from './app/views/help';
+
+// import I18n from './app/utils/i18n';
+
+if (!__DEV__) {
+  console.log = () => {};
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
+const App = TabNavigator({
+  Main: { screen: Main },
+  Settings: { screen: Settings },
+  Help: { screen: Help },
+}, {
+  headerMode: 'none',
+  swipeEnabled: false,
+  animationEnabled: true,
+  tabBarOptions: {
+    activeTintColor: iOSColors.tealBlue,
+    inactiveTintColor: iOSColors.gray,
+    // showIcon and pressColor are for Android
+    showIcon: true,
+    pressColor: '#E0E0E0',
+    labelStyle: {
+      // fontSize: Platform.OS === 'ios' && I18n.isZh ? 12 : 10,
+      // paddingBottom: Platform.OS === 'ios' && I18n.isZh ? 4 : 2,
+      fontSize: 10,
+      paddingBottom: 2,
+    },
+    style: {
+      backgroundColor: 'white',
+    },
   },
 });
+
+console.ignoredYellowBox = [
+  'NetInfo\'s "change" event is deprecated. Listen to the "connectionChange" event instead.',
+  'Warning: Can only update a mounted or mounting component.',
+];
+
+module.exports = App;

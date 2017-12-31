@@ -15,6 +15,7 @@
 #import <Firebase.h>
 
 @implementation AppDelegate
+@synthesize oneSignal = _oneSignal;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
@@ -33,6 +34,11 @@
   UIViewController *rootViewController = [UIViewController new];
   rootViewController.view = rootView;
   self.window.rootViewController = rootViewController;
+
+  self.oneSignal = [[RCTOneSignal alloc] initWithLaunchOptions:launchOptions
+                                                         appId:@"1d9c99a2-8919-4629-922a-76f084b164f9"
+                                                      settings:@{kOSSettingsKeyAutoPrompt: @false}];
+  
   [self.window makeKeyAndVisible];
   return YES;
 }
