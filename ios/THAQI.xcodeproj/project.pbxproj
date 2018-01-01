@@ -43,6 +43,7 @@
 		5E9157361DD0AC6A00FF2AA8 /* libRCTAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E9157331DD0AC6500FF2AA8 /* libRCTAnimation.a */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
 		9EF0F93C1FF8CF0D002B1E9E /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9EF0F93B1FF8CF0C002B1E9E /* GoogleService-Info.plist */; };
+		9EF0FAF81FFA1E0B002B1E9E /* libReactNativeFabric.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9EF0FAF91FFA1E0B002B1E9E /* libReactNativeFabric.a */; };
 		A9A0EC916B5F4D0FAE5A79C7 /* Foundation.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2274132ABEFE43EEA4032BAF /* Foundation.ttf */; };
 		AD62AB9D4D9D4B369DBC48FF /* Zocial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BF42E64CE4FA4E0F96E22EAC /* Zocial.ttf */; };
 		ADBDB9381DFEBF1600ED6528 /* libRCTBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ADBDB9271DFEBF0700ED6528 /* libRCTBlob.a */; };
@@ -366,6 +367,7 @@
 		93F24028C1B24D848F9B18E2 /* RNLocation.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNLocation.xcodeproj; path = "../node_modules/react-native-location/ios/RNLocation.xcodeproj"; sourceTree = "<group>"; };
 		9EF0F93B1FF8CF0C002B1E9E /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		9EF0F9BB1FF8D2C7002B1E9E /* THAQI.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = THAQI.entitlements; path = THAQI/THAQI.entitlements; sourceTree = "<group>"; };
+		9EF0FAF91FFA1E0B002B1E9E /* libReactNativeFabric.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libReactNativeFabric.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		AA5BE4A221414AF3AA5965F4 /* RNFirebase.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNFirebase.xcodeproj; path = "../node_modules/react-native-firebase/ios/RNFirebase.xcodeproj"; sourceTree = "<group>"; };
 		ADBDB91F1DFEBF0600ED6528 /* RCTBlob.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTBlob.xcodeproj; path = "../node_modules/react-native/Libraries/Blob/RCTBlob.xcodeproj"; sourceTree = "<group>"; };
 		AEEF0FF699B54089A8F9C8BE /* Octicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Octicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Octicons.ttf"; sourceTree = "<group>"; };
@@ -391,6 +393,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9EF0FAF81FFA1E0B002B1E9E /* libReactNativeFabric.a in Frameworks */,
 				ADBDB9381DFEBF1600ED6528 /* libRCTBlob.a in Frameworks */,
 				5E9157361DD0AC6A00FF2AA8 /* libRCTAnimation.a in Frameworks */,
 				146834051AC3E58100842450 /* libReact.a in Frameworks */,
@@ -691,6 +694,7 @@
 		ED63BBAD376E269497B3ECD2 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				9EF0FAF91FFA1E0B002B1E9E /* libReactNativeFabric.a */,
 				D2D07FE5B9B2D1DB18C296CB /* libPods-THAQI.a */,
 			);
 			name = Frameworks;
@@ -728,6 +732,7 @@
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
 				442774C22D20DCEE4601AE6E /* [CP] Embed Pods Frameworks */,
 				0E89DB615C192FC4A770EB74 /* [CP] Copy Pods Resources */,
+				9EF0FAC41FFA1843002B1E9E /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -1269,6 +1274,19 @@
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
+		};
+		9EF0FAC41FFA1843002B1E9E /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "./Fabric.framework/run ba90a9cfaac47e081b32f911ff611a6722de57c8 ab8641b5c4f0d990f0dfebe77f1c12dde8b3c5befec15ea5dc35a1c0b12e0849";
 		};
 /* End PBXShellScriptBuildPhase section */
 

@@ -1,3 +1,94 @@
+const regions = [{
+  id: '1',
+  name: {
+    en: 'Bangkok Metropolitan Region',
+    th: 'กรุงเทพฯและปริมณฑล',
+  },
+  stations: [
+    '03t',
+    '05t',
+    '10t',
+    '50t',
+    '52t',
+    '53t',
+    '59t',
+    '61t',
+    '08t',
+    '17t',
+    '19t',
+    '27t',
+  ],
+}, {
+  id: '2',
+  name: {
+    en: 'Northern Provinces',
+    th: 'ภาคเหนือ',
+  },
+  stations: [
+    '57t',
+    '73t',
+    '35t',
+    '36t',
+    'm101',
+    '37t',
+    '38t',
+    '39t',
+    '40t',
+    '68t',
+    '58t',
+    '67t',
+    '75t',
+    '69t',
+    '70t',
+    '76t',
+  ]
+}, {
+  id: '3',
+  name: {
+    en: 'Eastern Provinces',
+    th: 'ภาคตะวันออก',
+  },
+  stations: [
+    '60t',
+    '32t',
+    '33t',
+    '34t',
+    '28t',
+    '30t',
+    '74t',
+    'a29',
+    'm8',
+    '77t',
+    '71t',
+  ]
+}, {
+  id: '5',
+  name: {
+    en: 'Eastern Provinces',
+    th: 'ภาคตะวันออกเฉียงเหนือ',
+  },
+  stations: [
+    '72t',
+    '46t',
+    '47t',
+  ]
+}, {
+  id: '7',
+  name: {
+    en: 'Central And Western Provinces',
+    th: 'ภาคกลางและตะวันตก',
+  },
+  stations: [
+    '41t',
+    '79t',
+    '24t',
+    '25t',
+    '21t',
+    '26t',
+  ]
+}];
+
+
 const stations = [{
     address: {
       en: 'Wiang Phang Kham, Mae Sai, Chiang Rai',
@@ -756,6 +847,7 @@ const stations = [{
   }
 ];
 
+exports.regions = regions;
 exports.stations = stations;
 exports.station_mapper = stations.reduce((map, obj) => {
     map[obj.code] = obj;

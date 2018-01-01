@@ -14,6 +14,9 @@
 
 #import <Firebase.h>
 
+#import <Fabric/Fabric.h>
+#import <Crashlytics/Crashlytics.h>
+
 @implementation AppDelegate
 @synthesize oneSignal = _oneSignal;
 
@@ -39,6 +42,8 @@
                                                          appId:@"1d9c99a2-8919-4629-922a-76f084b164f9"
                                                       settings:@{kOSSettingsKeyAutoPrompt: @false}];
   
+  [Fabric with:@[[Crashlytics class]]];
+
   [self.window makeKeyAndVisible];
   return YES;
 }

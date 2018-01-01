@@ -12,6 +12,7 @@
     "react": "16.0.0",
     "react-native": "0.51.0",
     "react-native-device-info": "^0.13.0",
+    "react-native-fabric": "oblador/react-native-fabric",
     "react-native-firebase": "^3.2.0",
     "react-native-i18n": "^2.0.10",
     "react-native-location": "github:timfpark/react-native-location#723d46382d8c370f6e6b795006276f98e80b2d84",

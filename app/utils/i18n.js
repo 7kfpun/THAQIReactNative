@@ -68,7 +68,7 @@ I18n.translations = {
     rating_description: 'กรุณาให้เรา 5 ดาวเพื่อเชียร์เรา',
     feedback_description: 'เราต้องการ้คำแนะนำของคุณ เราจะทำให้แอพนี้ดีขึ้น',
 
-    notify_title: 'ประกาศ',
+    notify_title: 'การตั้งค่าการแจ้งเตือน',
 
     notify_pollution_title: 'เมื่อคุณภาพอากาศแย่ลง',
     notify_pollution_therhold: 'แจ้งให้ฉันทราบเมื่อ AQI อยู่เหนือ',
@@ -76,7 +76,7 @@ I18n.translations = {
     notify_cleanliness_therhold: 'แจ้งให้ฉันทราบเมื่อ AQI ต่ำกว่า',
     aqi_full: 'คุณภาพอากาศ (AQI)',
 
-    permissions_required: 'Notification permission required',
+    permissions_required: 'คุณต้องเปิดการแจ้งเตือน',
     too_small_therhold: 'ค่าที่คุณตั้งไว้ต่ำหรือคุณจะได้รับการแจ้งเตือนเป็นจำนวนมาก',
     too_large_therhold: 'ค่าที่คุณตั้งไว้สูง คุณจะได้รับการแจ้งเตือนเป็นจำนวนมาก',
 
@@ -92,10 +92,10 @@ I18n.translations = {
     status_good_meaning: 'ไม่มีผลกระทบต่อสุขภาพ',
     status_moderate: 'ปานกลาง',
     status_moderate_meaning: 'ไม่มีผลกระทบต่อสุขภาพ',
-    status_unhealthy_for_sensitive_groups: 'มีผลกระทบต่อสุขภาพ',
-    status_unhealthy_for_sensitive_groups_meaning: 'ผู้ป่วยโรคระบบทางเดินหายใจ ควรหลีกเลี่ยงการออกกำลังภายนอกอาคาร บุคคลทั่วไป โดยเฉพาะเด็กและผู้สูงอายุ ไม่ควรทำกิจกรรมภายนอกอาคารเป็นเวลานาน',
-    status_unhealthy: 'มีผลกระทบต่อกลุ่มที่มีความอ่อนไหว',
-    status_unhealthy_meaning: 'ผู้ป่วยโรคระบบทางเดินหายใจ ควรหลีกเลี่ยงการออกกำลังภายนอกอาคาร บุคคลทั่วไป โดยเฉพาะเด็กและผู้สูงอายุ ไม่ควรทำกิจกรรมภายนอกอาคารเป็นเวลานาน',
+    status_unhealthy_for_sensitive_groups: 'มีผลกระทบต่อกลุ่มที่มีความอ่อนไหว',
+    status_unhealthy_for_sensitive_groups_meaning: 'ผู้ป่วยโรคระบบทางเดินหายใจ ควรหลีกเลี่ยงการออกกำลังภายนอกอาคาร',
+    status_unhealthy: 'มีผลกระทบต่อสุขภาพ',
+    status_unhealthy_meaning: 'บุคคลทั่วไป โดยเฉพาะเด็กและผู้สูงอายุ ไม่ควรทำกิจกรรมภายนอกอาคารเป็นเวลานาน',
     status_very_unhealthy: 'มีผบกระทบต่อสุขภาพมาก',
     status_very_unhealthy_meaning: 'ผู้ป่วยโรคระบบทางเดินหายใจ ควรหลีกเลี่ยงกิจกรรมภายนอกอาคาร บุคคลทั่วไป โดยเฉพาะเด็กและผู้สูงอายุ ควรจำกัดการออกกำลังภายนอกอาคาร',
     status_hazardous: 'อันตราย',

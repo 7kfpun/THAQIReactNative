@@ -15,16 +15,17 @@ import {
 import firebase from 'react-native-firebase';
 import OneSignal from 'react-native-onesignal';
 
+import Marker from '../elements/marker';
+
 import { indexRanges } from '../utils/indexes';
+import { OneSignalGetTags } from '../utils/onesignal';
 import { station_mapper } from '../utils/stations';
 import I18n from '../utils/i18n';
 import tracker from '../utils/tracker';
 
-import Marker from '../elements/marker';
-
 const styles = StyleSheet.create({
   container: {
-    padding: 10,
+    paddingVertical: 8,
   },
   switchBlock: {
     flexDirection: 'row',
@@ -69,14 +70,16 @@ export default class SettingsItem extends Component {
   static propTypes = {
     item: PropTypes.shape({
       code: PropTypes.string,
-      // code: PropTypes.string,
-      // AreaName: PropTypes.string,
-      // County: PropTypes.string,
-      // Township: PropTypes.string,
-      // SiteAddress: PropTypes.string,
+      name: PropTypes.shape({
+        en: PropTypes.string,
+        th: PropTypes.string,
+      }).isRequired,
+      address: PropTypes.shape({
+        en: PropTypes.string,
+        th: PropTypes.string,
+      }).isRequired,
       lat: PropTypes.string,
       long: PropTypes.string,
-      // SiteType: PropTypes.string,
     }).isRequired,
   }
 
@@ -88,22 +91,14 @@ export default class SettingsItem extends Component {
     switchSelector: 0,
   };
 
-  componentDidMount() {
-    const that = this;
-    const trace = firebase.perf().newTrace('onesignal_get_tags');
-    trace.start();
-    OneSignal.getTags((tags) => {
-      trace.stop();
-      console.log('OneSignal tags', tags);
+  async componentDidMount() {
+    const tags = await OneSignalGetTags();
+    const item = this.props.item;
 
-      receivedTags = tags || {};
-      const item = this.props.item;
-
-      that.setState({
-        isEnabled: receivedTags[item.code] === 'true',
-        pollutionTherhold: receivedTags[`${item.code}_pollution_therhold`] ? parseInt(receivedTags[`${item.code}_pollution_therhold`], 10) : DEFAULT_POLLUTION_THERHOLD,
-        cleanlinessTherhold: receivedTags[`${item.code}_cleanliness_therhold`] ? parseInt(receivedTags[`${item.code}_cleanliness_therhold`], 10) : DEFAULT_CLEANLINESS_THERHOLD,
-      });
+    this.setState({
+      isEnabled: tags[item.code] === 'true',
+      pollutionTherhold: tags[`${item.code}_pollution_therhold`] ? parseInt(tags[`${item.code}_pollution_therhold`], 10) : DEFAULT_POLLUTION_THERHOLD,
+      cleanlinessTherhold: tags[`${item.code}_cleanliness_therhold`] ? parseInt(tags[`${item.code}_cleanliness_therhold`], 10) : DEFAULT_CLEANLINESS_THERHOLD,
     });
   }
 

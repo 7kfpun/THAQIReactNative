@@ -12,8 +12,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 
 import SettingsItem from '../elements/settings-item';
 
-import { countyZh2En } from '../utils/county-mapping';
-import { locations } from '../utils/locations';
+import { stations, station_mapper } from '../utils/stations';
 import tracker from '../utils/tracker';
 import I18n from '../utils/i18n';
 
@@ -52,43 +51,44 @@ const styles = StyleSheet.create({
 
 export default class SettingsGroup extends Component {
   static propTypes = {
-    groupName: PropTypes.string.isRequired,
+    item: PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      name: PropTypes.shape({
+        en: PropTypes.string.isRequired,
+        th: PropTypes.string.isRequired,
+      }).isRequired,
+    }).isRequired,
   }
 
   state = {
-    locations: [],
     isOpen: false,
   };
 
   componentDidMount() {
-    this.prepareLocations();
-  }
-
-  prepareLocations() {
-    this.setState({ locations: locations.filter(item => item.County === this.props.groupName).sort() });
+    console.log(station_mapper);
   }
 
   render() {
-    const groupName = this.props.groupName;
-
+    const item = this.props.item;
+    console.log('station_mapperitem', item.stations);
     return (
       <View style={styles.container}>
         <TouchableOpacity
           onPress={() => {
             this.setState({ isOpen: !this.state.isOpen });
-            tracker.logEvent('toggle-settings-group', { label: groupName });
+            tracker.logEvent('toggle-settings-group', { label: I18n.isTh ? item.name.th : item.name.en });
           }}
         >
           <View style={styles.groupNameBlock}>
-            <Text style={styles.text}>{I18n.isZh ? groupName : countyZh2En[groupName]}</Text>
+            <Text style={styles.text}>{I18n.isTh ? item.name.th : item.name.en}</Text>
             <Icon name={this.state.isOpen ? 'keyboard-arrow-down' : 'chevron-right'} size={21} color={'gray'} />
           </View>
         </TouchableOpacity>
         {this.state.isOpen && <FlatList
           style={styles.list}
-          data={this.state.locations}
-          keyExtractor={(item, index) => `${index}-${item.key}`}
-          renderItem={({ item }) => <SettingsItem item={item} />}
+          data={item.stations}
+          keyExtractor={item => item}
+          renderItem={({ item }) => <SettingsItem item={station_mapper[item]} />}
         />}
       </View>
     );

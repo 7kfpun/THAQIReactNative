@@ -107,7 +107,7 @@ export default class HelpView extends Component {
   static openFeedbackUrl() {
     SafariView.isAvailable()
       .then(SafariView.show({
-        url: config.feedbackUrl,
+        url: I18n.isTh ? config.feedbackUrl.th : config.feedbackUrl.en,
       }))
       .catch((error) => {
         console.log(error);

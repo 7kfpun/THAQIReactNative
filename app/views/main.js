@@ -92,7 +92,7 @@ const styles = StyleSheet.create({
   },
 
   stationText: {
-    fontSize: 11,
+    fontSize: 12,
   },
 
   buttonContainer: {
@@ -114,6 +114,10 @@ const styles = StyleSheet.create({
   },
   selectedBubble: {
     borderColor: iOSColors.tealBlue,
+  },
+
+  text: {
+    fontSize: 13,
   },
 });
 
@@ -151,7 +155,6 @@ export default class MainView extends Component<{}> {
 
   async componentDidMount() {
     this.prepareData();
-
     timer.setInterval(this, 'ReloadDataInterval', () => this.prepareData(), RELOAD_INTERVAL);
 
     const that = this;
