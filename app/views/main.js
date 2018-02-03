@@ -128,16 +128,6 @@ export default class MainView extends Component<{}> {
     tabBarIcon: ({ tintColor }) => <Icon name="place" size={19} color={tintColor} />,
   };
 
-  state = {
-    location: {
-      latitude: LATITUDE,
-      longitude: LONGITUDE,
-    },
-    selectedIndex: indexTypes[0].key,
-    isLoading: false,
-    gpsEnabled: false,
-  };
-
   static isOutOfBound(latitude, longitude) {
     const distance = ((latitude - LATITUDE) * (latitude - LATITUDE)) + ((longitude - LONGITUDE) * (longitude - LONGITUDE));
     console.log('Distance', distance);
@@ -152,6 +142,16 @@ export default class MainView extends Component<{}> {
       longitudeDelta: LONGITUDE_DELTA,
     };
   }
+
+  state = {
+    location: {
+      latitude: LATITUDE,
+      longitude: LONGITUDE,
+    },
+    selectedIndex: indexTypes[0].key,
+    isLoading: false,
+    gpsEnabled: false,
+  };
 
   async componentDidMount() {
     this.prepareData();
@@ -287,47 +287,48 @@ export default class MainView extends Component<{}> {
         >
           {this.state.aqiResult && this.state.aqiResult.stations
             && this.state.aqiResult.stations
-            .map(station => (<MapView.Marker
-              key={station.stationID}
-              coordinate={{
-                latitude: parseFloat(station.lat),
-                longitude: parseFloat(station.long),
-              }}
-              onPress={() => {
-                this.setState({ selectedLocation: station.stationID });
-                this.map.animateToRegion({
+            .map(station => (
+              <MapView.Marker
+                key={station.stationID}
+                coordinate={{
                   latitude: parseFloat(station.lat),
                   longitude: parseFloat(station.long),
-                });
+                }}
+                onPress={() => {
+                  this.setState({ selectedLocation: station.stationID });
+                  this.map.animateToRegion({
+                    latitude: parseFloat(station.lat),
+                    longitude: parseFloat(station.long),
+                  });
 
-                const tempStation = {...station}
-                delete tempStation.LastUpdate
-                tracker.logEvent('select-location', tempStation);
-              }}
-            >
-              <View>
-                <Marker
-                  amount={station.LastUpdate[this.state.selectedIndex].value || station.LastUpdate[this.state.selectedIndex].aqi}
-                  index={this.state.selectedIndex}
-                  isNumericShow={true}
-                />
-              </View>
-              <MapView.Callout>
-                <TouchableOpacity
-                  onPress={() => {
-                    const tempStation = {...station}
-                    delete tempStation.LastUpdate
-                    tracker.logEvent('check-main-details', tempStation);
-                    this.props.navigation.navigate('MainDetails', { item: station });
-                  }}
-                >
-                  <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', width: I18n.isTh ? station.areaTH.length * 6: station.areaEN.length * 6, marginLeft: 10 }}>
-                    <Text style={styles.stationText}>{I18n.isTh ? station.areaTH : station.areaEN}</Text>
-                    {/* <Icon name="chevron-right" size={24} color={'gray'} /> */}
-                  </View>
-                </TouchableOpacity>
-              </MapView.Callout>
-            </MapView.Marker>))}
+                  const tempStation = { ...station };
+                  delete tempStation.LastUpdate;
+                  tracker.logEvent('select-location', tempStation);
+                }}
+              >
+                <View>
+                  <Marker
+                    amount={station.LastUpdate[this.state.selectedIndex].value || station.LastUpdate[this.state.selectedIndex].aqi}
+                    index={this.state.selectedIndex}
+                    isNumericShow={true}
+                  />
+                </View>
+                <MapView.Callout>
+                  <TouchableOpacity
+                    onPress={() => {
+                      const tempStation = { ...station };
+                      delete tempStation.LastUpdate;
+                      tracker.logEvent('check-main-details', tempStation);
+                      this.props.navigation.navigate('MainDetails', { item: station });
+                    }}
+                  >
+                    <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', width: I18n.isTh ? station.areaTH.length * 6 : station.areaEN.length * 6, marginLeft: 10 }}>
+                      <Text style={styles.stationText}>{I18n.isTh ? station.areaTH : station.areaEN}</Text>
+                      {/* <Icon name="chevron-right" size={24} color={'gray'} /> */}
+                    </View>
+                  </TouchableOpacity>
+                </MapView.Callout>
+              </MapView.Marker>))}
 
           {this.state.gpsEnabled && this.state.location && <MapView.Marker
             coordinate={this.state.location}
@@ -344,8 +345,8 @@ export default class MainView extends Component<{}> {
           <View style={styles.refreshContainerBody}>
             <Text style={styles.refreshContainerText}>{this.state.aqiResult
               && this.state.aqiResult.stations
-              && `${this.state.aqiResult.stations[3].LastUpdate.date} ${this.state.aqiResult.stations[3].LastUpdate.time}`
-            }</Text>
+              && `${this.state.aqiResult.stations[3].LastUpdate.date} ${this.state.aqiResult.stations[3].LastUpdate.time}`}
+            </Text>
             {!this.state.isLoading && <Icon name="refresh" style={{ marginLeft: 5 }} size={20} color="#616161" />}
             {this.state.isLoading && <ActivityIndicator style={{ marginLeft: 5 }} />}
           </View>
@@ -353,25 +354,28 @@ export default class MainView extends Component<{}> {
 
         <Indicator />
 
-        {<TouchableOpacity
-          style={styles.defaultLocation}
-          onPress={() => {
-            this.map.animateToRegion(MainView.getDefaultLocation());
-            tracker.logEvent('move-to-default-location');
-          }}
-        >
-          <Icon name="crop-free" size={28} color={iOSColors.gray} />
-        </TouchableOpacity>}
+        {
+          <TouchableOpacity
+            style={styles.defaultLocation}
+            onPress={() => {
+              this.map.animateToRegion(MainView.getDefaultLocation());
+              tracker.logEvent('move-to-default-location');
+            }}
+          >
+            <Icon name="crop-free" size={28} color={iOSColors.gray} />
+          </TouchableOpacity>
+        }
 
-        {this.state.gpsEnabled && <TouchableOpacity
-          style={styles.currentLocation}
-          onPress={() => {
-            this.map.animateToRegion(this.getCurrentLocation());
-            tracker.logEvent('move-to-current-location');
-          }}
-        >
-          <Icon name="near-me" size={28} color={iOSColors.gray} />
-        </TouchableOpacity>}
+        {this.state.gpsEnabled &&
+          <TouchableOpacity
+            style={styles.currentLocation}
+            onPress={() => {
+              this.map.animateToRegion(this.getCurrentLocation());
+              tracker.logEvent('move-to-current-location');
+            }}
+          >
+            <Icon name="near-me" size={28} color={iOSColors.gray} />
+          </TouchableOpacity>}
 
         <View>
           <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.buttonContainer}>
@@ -391,7 +395,7 @@ export default class MainView extends Component<{}> {
             ))}
           </ScrollView>
 
-          <AdMob unitId={'thaqi-ios-main-footer'} />
+          <AdMob unitId="thaqi-ios-main-footer" />
         </View>
       </View>
     );

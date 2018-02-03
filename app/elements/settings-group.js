@@ -12,7 +12,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 
 import SettingsItem from '../elements/settings-item';
 
-import { stations, station_mapper } from '../utils/stations';
+import { stations, stationMapper } from '../utils/stations';
 import tracker from '../utils/tracker';
 import I18n from '../utils/i18n';
 
@@ -61,16 +61,16 @@ export default class SettingsGroup extends Component {
   }
 
   state = {
-    isOpen: false,
+    isOpen: true,
   };
 
   componentDidMount() {
-    console.log(station_mapper);
+    console.log(stationMapper);
   }
 
   render() {
-    const item = this.props.item;
-    console.log('station_mapperitem', item.stations);
+    const { item } = this.props;
+
     return (
       <View style={styles.container}>
         <TouchableOpacity
@@ -81,14 +81,14 @@ export default class SettingsGroup extends Component {
         >
           <View style={styles.groupNameBlock}>
             <Text style={styles.text}>{I18n.isTh ? item.name.th : item.name.en}</Text>
-            <Icon name={this.state.isOpen ? 'keyboard-arrow-down' : 'chevron-right'} size={21} color={'gray'} />
+            <Icon name={this.state.isOpen ? 'keyboard-arrow-down' : 'chevron-right'} size={21} color="gray" />
           </View>
         </TouchableOpacity>
         {this.state.isOpen && <FlatList
           style={styles.list}
           data={item.stations}
-          keyExtractor={item => item}
-          renderItem={({ item }) => <SettingsItem item={station_mapper[item]} />}
+          keyExtractor={i => i}
+          renderItem={({ item }) => <SettingsItem item={stationMapper[item]} />}
         />}
       </View>
     );

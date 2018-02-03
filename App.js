@@ -1,8 +1,4 @@
-import {
-  Platform,
-} from 'react-native';
-
-import { StackNavigator, TabNavigator } from 'react-navigation';
+import { TabNavigator } from 'react-navigation';
 import { iOSColors } from 'react-native-typography';
 
 import Main from './app/views/main';

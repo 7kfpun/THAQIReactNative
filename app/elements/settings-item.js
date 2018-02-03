@@ -12,14 +12,12 @@ import {
   View,
 } from 'react-native';
 
-import firebase from 'react-native-firebase';
 import OneSignal from 'react-native-onesignal';
 
 import Marker from '../elements/marker';
 
 import { indexRanges } from '../utils/indexes';
 import { OneSignalGetTags } from '../utils/onesignal';
-import { station_mapper } from '../utils/stations';
 import I18n from '../utils/i18n';
 import tracker from '../utils/tracker';
 
@@ -32,7 +30,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   text: {
-    fontSize: 16,
+    fontSize: 15,
   },
   input: {
     width: 30,
@@ -84,16 +82,14 @@ export default class SettingsItem extends Component {
   }
 
   state = {
-    isOpen: false,
     isEnabled: false,
     pollutionTherhold: DEFAULT_POLLUTION_THERHOLD,
     cleanlinessTherhold: DEFAULT_CLEANLINESS_THERHOLD,
-    switchSelector: 0,
   };
 
   async componentDidMount() {
     const tags = await OneSignalGetTags();
-    const item = this.props.item;
+    const { item } = this.props;
 
     this.setState({
       isEnabled: tags[item.code] === 'true',
@@ -145,7 +141,7 @@ export default class SettingsItem extends Component {
   }
 
   sendTags(value) {
-    const item = this.props.item;
+    const { item } = this.props;
 
     const tags = {};
     tags[item.code] = value;
@@ -207,7 +203,7 @@ export default class SettingsItem extends Component {
   }
 
   render() {
-    const item = this.props.item;
+    const { item } = this.props;
 
     return (
       <View style={styles.container}>
@@ -224,68 +220,69 @@ export default class SettingsItem extends Component {
           </View>
         </View>
 
-        {this.state.isEnabled && <View style={{ paddingTop: 10 }}>
-          <View style={styles.noticeBlock}>
-            <Text style={styles.noticeText}>{I18n.t('notify_pollution_therhold')}: </Text>
-            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-              <TextInput
-                style={styles.input}
-                keyboardType={'numeric'}
-                onChangeText={value => this.setNotificationPollutionTherhold(value)}
-                value={this.state.pollutionTherhold.toString()}
-              />
-              <TouchableOpacity onPress={() => this.showPollutionSelector()}>
-                <Marker
-                  amount={String(this.state.pollutionTherhold)}
-                  index={'AQI'}
-                  isStatusShow={true}
-                  fontSize={14}
+        {this.state.isEnabled &&
+          <View style={{ paddingTop: 10 }}>
+            <View style={styles.noticeBlock}>
+              <Text style={styles.noticeText}>{I18n.t('notify_pollution_therhold')}: </Text>
+              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                <TextInput
+                  style={styles.input}
+                  keyboardType="numeric"
+                  onChangeText={value => this.setNotificationPollutionTherhold(value)}
+                  value={this.state.pollutionTherhold.toString()}
                 />
-              </TouchableOpacity>
+                <TouchableOpacity onPress={() => this.showPollutionSelector()}>
+                  <Marker
+                    amount={String(this.state.pollutionTherhold)}
+                    index="AQI"
+                    isStatusShow={true}
+                    fontSize={14}
+                  />
+                </TouchableOpacity>
+              </View>
             </View>
-          </View>
-          <Text style={styles.noticeDescriptionText}>({I18n.t('notify_pollution_title')})</Text>
-          <Slider
-            style={{ width: window.width - 20 }}
-            step={1}
-            value={this.state.pollutionTherhold}
-            minimumValue={1}
-            maximumValue={500}
-            onValueChange={value => this.setNotificationPollutionTherhold(value)}
-          />
-          {this.state.pollutionTherhold < DEFAULT_POLLUTION_THERHOLD && <Text style={styles.noticeWarningText}>{I18n.t('too_small_therhold')}</Text>}
+            <Text style={styles.noticeDescriptionText}>({I18n.t('notify_pollution_title')})</Text>
+            <Slider
+              style={{ width: window.width - 20 }}
+              step={1}
+              value={this.state.pollutionTherhold}
+              minimumValue={1}
+              maximumValue={500}
+              onValueChange={value => this.setNotificationPollutionTherhold(value)}
+            />
+            {this.state.pollutionTherhold < DEFAULT_POLLUTION_THERHOLD && <Text style={styles.noticeWarningText}>{I18n.t('too_small_therhold')}</Text>}
 
-          <View style={styles.noticeBlock}>
-            <Text style={styles.noticeText}>{I18n.t('notify_cleanliness_therhold')}: </Text>
-            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-              <TextInput
-                style={styles.input}
-                keyboardType={'numeric'}
-                onChangeText={value => this.setNotificationCleanlinessTherhold(value)}
-                value={this.state.cleanlinessTherhold.toString()}
-              />
-              <TouchableOpacity onPress={() => this.showCleanlinessSelector()}>
-                <Marker
-                  amount={String(this.state.cleanlinessTherhold)}
-                  index={'AQI'}
-                  isStatusShow={true}
-                  isNumericShow={false}
-                  fontSize={14}
+            <View style={styles.noticeBlock}>
+              <Text style={styles.noticeText}>{I18n.t('notify_cleanliness_therhold')}: </Text>
+              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                <TextInput
+                  style={styles.input}
+                  keyboardType="numeric"
+                  onChangeText={value => this.setNotificationCleanlinessTherhold(value)}
+                  value={this.state.cleanlinessTherhold.toString()}
                 />
-              </TouchableOpacity>
+                <TouchableOpacity onPress={() => this.showCleanlinessSelector()}>
+                  <Marker
+                    amount={String(this.state.cleanlinessTherhold)}
+                    index="AQI"
+                    isStatusShow={true}
+                    isNumericShow={false}
+                    fontSize={14}
+                  />
+                </TouchableOpacity>
+              </View>
             </View>
-          </View>
-          <Text style={styles.noticeDescriptionText}>({I18n.t('notify_cleanliness_title')})</Text>
-          <Slider
-            style={{ width: window.width - 20 }}
-            step={1}
-            value={this.state.cleanlinessTherhold}
-            minimumValue={1}
-            maximumValue={500}
-            onValueChange={value => this.setNotificationCleanlinessTherhold(value)}
-          />
-          {this.state.cleanlinessTherhold > DEFAULT_CLEANLINESS_THERHOLD && <Text style={styles.noticeWarningText}>{I18n.t('too_large_therhold')}</Text>}
-        </View>}
+            <Text style={styles.noticeDescriptionText}>({I18n.t('notify_cleanliness_title')})</Text>
+            <Slider
+              style={{ width: window.width - 20 }}
+              step={1}
+              value={this.state.cleanlinessTherhold}
+              minimumValue={1}
+              maximumValue={500}
+              onValueChange={value => this.setNotificationCleanlinessTherhold(value)}
+            />
+            {this.state.cleanlinessTherhold > DEFAULT_CLEANLINESS_THERHOLD && <Text style={styles.noticeWarningText}>{I18n.t('too_large_therhold')}</Text>}
+          </View>}
       </View>
     );
   }

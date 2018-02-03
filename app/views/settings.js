@@ -8,18 +8,15 @@ import {
   View,
 } from 'react-native';
 
-import firebase from 'react-native-firebase';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import OneSignal from 'react-native-onesignal';
 import timer from 'react-native-timer';
 
 import AdMob from '../elements/admob';
-// import EnabledItems from '../elements/enabled-items';
 import SettingsGroup from '../elements/settings-group';
-import SettingsItem from '../elements/settings-item';
 
 import { OneSignalGetTags } from '../utils/onesignal';
-import { stations, regions } from '../utils/stations';
+import { regions } from '../utils/stations';
 import I18n from '../utils/i18n';
 import tracker from '../utils/tracker';
 
@@ -109,12 +106,12 @@ export default class SettingsView extends Component {
         <View style={styles.titleBlock}>
           <Text style={styles.titleText}>{I18n.t('notify_title')}</Text>
         </View>
-        {this.state.isShowPermissionReminderBlock && <View style={styles.permissionReminderBlock}>
-          <Text style={styles.permissionReminderText}>{I18n.t('permissions_required')}</Text>
-        </View>}
+        {this.state.isShowPermissionReminderBlock &&
+          <View style={styles.permissionReminderBlock}>
+            <Text style={styles.permissionReminderText}>{I18n.t('permissions_required')}</Text>
+          </View>}
 
         <ScrollView>
-          {/* <EnabledItems /> */}
           <FlatList
             style={styles.list}
             data={regions}
@@ -122,7 +119,7 @@ export default class SettingsView extends Component {
             renderItem={({ item }) => <SettingsGroup item={item} />}
           />
         </ScrollView>
-        <AdMob unitId={'thaqi-ios-settings-footer'} />
+        <AdMob unitId="thaqi-ios-settings-footer" />
       </View>
     );
   }

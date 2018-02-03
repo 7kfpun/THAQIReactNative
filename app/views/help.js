@@ -127,18 +127,19 @@ export default class HelpView extends Component {
         <ScrollView>
           <View style={styles.block}>
             <View style={{ marginBottom: 20 }}><Text>{I18n.t('aqi_meaning')}</Text></View>
-            {helpTexts.AQI.map((item) => <View key={`help-text-${Math.random()}`}>
-              <View style={styles.row}>
-                <View style={[{ backgroundColor: item.backgroundColor }, styles.index]}>
-                  <Text style={{ color: item.fontColor }}>{item.index}</Text>
+            {helpTexts.AQI.map(item => (
+              <View key={`help-text-${Math.random()}`}>
+                <View style={styles.row}>
+                  <View style={[{ backgroundColor: item.backgroundColor }, styles.index]}>
+                    <Text style={{ color: item.fontColor }}>{item.index}</Text>
+                  </View>
+                  <Text>{I18n.t(item.category)}</Text>
                 </View>
-                <Text>{I18n.t(item.category)}</Text>
-              </View>
-              <Text style={styles.description}>{I18n.t(item.meaning)}</Text>
-            </View>)}
+                <Text style={styles.description}>{I18n.t(item.meaning)}</Text>
+              </View>))}
           </View>
         </ScrollView>
-        <AdMob unitId={'thaqi-ios-help-footer'} />
+        <AdMob unitId="thaqi-ios-help-footer" />
       </View>
     );
   }
