@@ -121,7 +121,7 @@ export default class HelpView extends Component {
         <View style={styles.titleBlock}>
           <Text style={styles.title}>{I18n.t('help_definition')}</Text>
           <TouchableOpacity onPress={HelpView.openFeedbackUrl}>
-            <Icon name="info-outline" size={30} color={iOSColors.gray} />
+            <Icon name="mail-outline" size={30} color={iOSColors.gray} />
           </TouchableOpacity>
         </View>
         <ScrollView>

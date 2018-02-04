@@ -14,7 +14,7 @@ I18n.translations = {
 
     list_title: 'Detail Data',
 
-    rating_title: 'Enjoy using "Taiwan Air Quality"?',
+    rating_title: 'Enjoy using "Thailand Air Quality"?',
     rating_description: 'Please give us 5 stars to cheer we up if you like this app.',
     feedback_description: 'Give us some feedbacks. We will definitely keep improving.',
 
@@ -66,7 +66,7 @@ I18n.translations = {
 
     rating_title: 'ถ้าคุณชอบแอพนี้',
     rating_description: 'กรุณาให้เรา 5 ดาวเพื่อเชียร์เรา',
-    feedback_description: 'เราต้องการ้คำแนะนำของคุณ เราจะทำให้แอพนี้ดีขึ้น',
+    feedback_description: 'เราต้องการคำแนะนำของคุณ เราจะทำให้แอพนี้ดีขึ้น',
 
     notify_title: 'การตั้งค่าการแจ้งเตือน',
 

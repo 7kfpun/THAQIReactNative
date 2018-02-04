@@ -21,6 +21,7 @@ import timer from 'react-native-timer';
 
 import AdMob from '../elements/admob';
 import Indicator from '../elements/indicator';
+import Rating from '../elements/rating';
 import Marker from '../elements/marker';
 
 import { aqi } from '../utils/api';
@@ -353,6 +354,8 @@ export default class MainView extends Component<{}> {
         </TouchableOpacity>
 
         <Indicator />
+
+        <Rating />
 
         {
           <TouchableOpacity
