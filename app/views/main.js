@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+
 import {
   Dimensions,
   DeviceEventEmitter,
@@ -21,8 +23,8 @@ import timer from 'react-native-timer';
 
 import AdMob from '../elements/admob';
 import Indicator from '../elements/indicator';
-import Rating from '../elements/rating';
 import Marker from '../elements/marker';
+import Rating from '../elements/rating';
 
 import { aqi } from '../utils/api';
 import { indexTypes } from '../utils/indexes';
@@ -123,6 +125,12 @@ const styles = StyleSheet.create({
 });
 
 export default class MainView extends Component<{}> {
+  static propTypes = {
+    navigation: PropTypes.shape({
+      navigate: PropTypes.func.isRequired,
+    }).isRequired,
+  }
+
   static navigationOptions = {
     header: null,
     tabBarLabel: I18n.t('main'),
@@ -278,6 +286,8 @@ export default class MainView extends Component<{}> {
   }
 
   render() {
+    const { navigation } = this.props;
+
     return (
       <View style={styles.container}>
         <MapView
@@ -285,6 +295,7 @@ export default class MainView extends Component<{}> {
           ref={(ref) => { this.map = ref; }}
           initialRegion={this.getCurrentLocation()}
           // onRegionChange={region => this.onRegionChange(region)}
+          showsUserLocation={true}
         >
           {this.state.aqiResult && this.state.aqiResult.stations
             && this.state.aqiResult.stations
@@ -296,15 +307,9 @@ export default class MainView extends Component<{}> {
                   longitude: parseFloat(station.long),
                 }}
                 onPress={() => {
-                  this.setState({ selectedLocation: station.stationID });
-                  this.map.animateToRegion({
-                    latitude: parseFloat(station.lat),
-                    longitude: parseFloat(station.long),
-                  });
-
-                  const tempStation = { ...station };
-                  delete tempStation.LastUpdate;
-                  tracker.logEvent('select-location', tempStation);
+                  // this.setState({ selectedLocation: station.stationID });
+                  tracker.logEvent('check-main-details', station);
+                  navigation.navigate('MainDetails', { item: station });
                 }}
               >
                 <View>
@@ -314,26 +319,7 @@ export default class MainView extends Component<{}> {
                     isNumericShow={true}
                   />
                 </View>
-                <MapView.Callout>
-                  <TouchableOpacity
-                    onPress={() => {
-                      const tempStation = { ...station };
-                      delete tempStation.LastUpdate;
-                      tracker.logEvent('check-main-details', tempStation);
-                      this.props.navigation.navigate('MainDetails', { item: station });
-                    }}
-                  >
-                    <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', width: I18n.isTh ? station.areaTH.length * 6 : station.areaEN.length * 6, marginLeft: 10 }}>
-                      <Text style={styles.stationText}>{I18n.isTh ? station.areaTH : station.areaEN}</Text>
-                      {/* <Icon name="chevron-right" size={24} color={'gray'} /> */}
-                    </View>
-                  </TouchableOpacity>
-                </MapView.Callout>
               </MapView.Marker>))}
-
-          {this.state.gpsEnabled && this.state.location && <MapView.Marker
-            coordinate={this.state.location}
-          />}
         </MapView>
 
         <TouchableOpacity

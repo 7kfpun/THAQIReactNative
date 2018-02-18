@@ -26,7 +26,7 @@ exports.indexTypes = [{
   unit: 'ppb',
 }];
 
-exports.indexRanges = {
+const indexRanges = {
   AQI: [{
     key: 0,
     status: I18n.t('status_good'),
@@ -334,4 +334,15 @@ exports.indexRanges = {
     min: 1250,
     max: 2049,
   }],
+};
+
+exports.indexRanges = indexRanges;
+
+exports.getColor = (index, amount) => {
+  const isMatched = (indexRanges[index] || indexRanges[index.replace('_', '.')]).filter(item => amount >= item.min && amount <= item.max);
+  if (isMatched && isMatched.length >= 1) {
+    return isMatched[0];
+  }
+
+  return { color: '#212121' };
 };

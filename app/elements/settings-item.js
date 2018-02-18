@@ -79,6 +79,11 @@ export default class SettingsItem extends Component {
       lat: PropTypes.string,
       long: PropTypes.string,
     }).isRequired,
+    text: PropTypes.string,
+  }
+
+  static defaultProps = {
+    text: '',
   }
 
   state = {
@@ -203,13 +208,19 @@ export default class SettingsItem extends Component {
   }
 
   render() {
-    const { item } = this.props;
+    const { item, text } = this.props;
+    let title;
+    if (text) {
+      title = text;
+    } else {
+      title = I18n.isTh ? item.address.th : item.address.en;
+    }
 
     return (
       <View style={styles.container}>
         <View style={styles.switchBlock}>
           <View style={{ flex: 3, flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start' }}>
-            <Text style={styles.text}>{I18n.isTh ? item.address.th : item.address.en}</Text>
+            <Text style={styles.text}>{title}</Text>
           </View>
           <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end' }}>
             <Switch

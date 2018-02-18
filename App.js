@@ -1,7 +1,8 @@
-import { TabNavigator } from 'react-navigation';
+import { StackNavigator, TabNavigator } from 'react-navigation';
 import { iOSColors } from 'react-native-typography';
 
 import Main from './app/views/main';
+import Details from './app/views/details';
 import Settings from './app/views/settings';
 import Help from './app/views/help';
 
@@ -12,7 +13,12 @@ if (!__DEV__) {
 }
 
 const App = TabNavigator({
-  Main: { screen: Main },
+  Main: {
+    screen: StackNavigator({
+      MainMap: { screen: Main },
+      MainDetails: { screen: Details },
+    }),
+  },
   Settings: { screen: Settings },
   Help: { screen: Help },
 }, {

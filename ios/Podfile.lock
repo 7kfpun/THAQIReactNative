@@ -105,7 +105,7 @@ PODS:
     - React/Core
     - React/fishhook
     - React/RCTBlob
-  - ReactNativeFabric (0.5.1):
+  - ReactNativeFabric (0.3.1):
     - Crashlytics
     - Fabric
     - React
@@ -114,6 +114,10 @@ PODS:
   - RNFirebase (3.2.0):
     - React
   - RNI18n (2.0.10):
+    - React
+  - RNSVG (6.2.1):
+    - React
+  - RNVectorIcons (4.4.3):
     - React
   - yoga (0.51.0.React)
 
@@ -146,6 +150,8 @@ DEPENDENCIES:
   - RNDeviceInfo (from `../node_modules/react-native-device-info`)
   - RNFirebase (from `../node_modules/react-native-firebase/ios`)
   - RNI18n (from `../node_modules/react-native-i18n`)
+  - RNSVG (from `../node_modules/react-native-svg`)
+  - RNVectorIcons (from `../node_modules/react-native-vector-icons`)
   - yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
 EXTERNAL SOURCES:
@@ -167,6 +173,10 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-firebase/ios"
   RNI18n:
     :path: "../node_modules/react-native-i18n"
+  RNSVG:
+    :path: "../node_modules/react-native-svg"
+  RNVectorIcons:
+    :path: "../node_modules/react-native-vector-icons"
   yoga:
     :path: "../node_modules/react-native/ReactCommon/yoga"
 
@@ -192,12 +202,14 @@ SPEC CHECKSUMS:
   react-native-maps: d3b689927722398a12a4b3007fd9a0c60e1c48cd
   react-native-onesignal: 9d55c8fa78c83ef01059890966ea2d88852b8d6d
   react-native-safari-view: 955d7160d159241b8e9395d12d10ea0ef863dcdd
-  ReactNativeFabric: 681ea672581869b08108ad6eb7ab3dda67f6f63d
+  ReactNativeFabric: 8b3e84871552a2f0d1e7540670200f717de4f003
   RNDeviceInfo: dc3cbee96cd2392cf03d6ff6191dc15f1606a166
   RNFirebase: 22b1917fec663706907bc901ed665ac4f8b9bfd6
   RNI18n: cd4ddd958e326a2427b70f5474b3fb04aea793b2
+  RNSVG: 1f5c56999e273ad80e0ec345432ec663b6a92755
+  RNVectorIcons: c071c813b86302163f687c0a8209ce37f054212f
   yoga: b5d96400ca8b2936965a7a6516da7c1177f432a3
 
-PODFILE CHECKSUM: 5fbe232f9446ab8cd66de20d91168706c8a31955
+PODFILE CHECKSUM: b50ca7a23ea512f08c8b4efbc62cfebedca6d377
 
 COCOAPODS: 1.2.1
