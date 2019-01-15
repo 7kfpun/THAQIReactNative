@@ -9,6 +9,10 @@ exports.indexTypes = [{
   name: 'PM10',
   unit: 'µg/m³',
 }, {
+  key: 'PM25',
+  name: 'PM25',
+  unit: 'µg/m³',
+}, {
   key: 'O3',
   name: 'O3',
   unit: 'ppb',
@@ -31,7 +35,7 @@ const indexRanges = {
     key: 0,
     status: I18n.t('status_good'),
     color: '#009866',
-    fontColor: 'black',
+    fontColor: 'white',
     min: 0,
     max: 50,
   }, {
@@ -71,11 +75,11 @@ const indexRanges = {
     max: 500,
   }],
 
-  'PM2.5': [{
+  PM25: [{
     key: 0,
     status: '良好',
     color: '#009866',
-    fontColor: 'black',
+    fontColor: 'white',
     min: 0.0,
     max: 15.4,
   }, {
@@ -119,7 +123,7 @@ const indexRanges = {
     key: 0,
     status: '良好',
     color: '#009866',
-    fontColor: 'black',
+    fontColor: 'white',
     min: 0,
     max: 54,
   }, {
@@ -163,7 +167,7 @@ const indexRanges = {
     key: 0,
     status: '良好',
     color: '#009866',
-    fontColor: 'black',
+    fontColor: 'white',
     min: 0,
     max: 54,
   }, {
@@ -207,7 +211,7 @@ const indexRanges = {
     key: 0,
     status: '良好',
     color: '#009866',
-    fontColor: 'black',
+    fontColor: 'white',
     min: 0,
     max: 4.4,
   }, {
@@ -251,7 +255,7 @@ const indexRanges = {
     key: 0,
     status: '良好',
     color: '#009866',
-    fontColor: 'black',
+    fontColor: 'white',
     min: 0,
     max: 35,
   }, {
@@ -295,7 +299,7 @@ const indexRanges = {
     key: 0,
     status: '良好',
     color: '#009866',
-    fontColor: 'black',
+    fontColor: 'white',
     min: 0,
     max: 53,
   }, {
