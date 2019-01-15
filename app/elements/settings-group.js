@@ -12,7 +12,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 
 import SettingsItem from '../elements/settings-item';
 
-import { stations, stationMapper } from '../utils/stations';
+import { stationMapper } from '../utils/stations';
 import tracker from '../utils/tracker';
 import I18n from '../utils/i18n';
 
@@ -86,7 +86,7 @@ export default class SettingsGroup extends Component {
         </TouchableOpacity>
         {this.state.isOpen && <FlatList
           style={styles.list}
-          data={item.stations}
+          data={item.stations.filter(i => stationMapper[i])}
           keyExtractor={i => i}
           renderItem={({ item }) => <SettingsItem item={stationMapper[item]} />}
         />}

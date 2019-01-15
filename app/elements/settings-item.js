@@ -67,17 +67,9 @@ const DEFAULT_CLEANLINESS_THERHOLD = 30;
 export default class SettingsItem extends Component {
   static propTypes = {
     item: PropTypes.shape({
-      code: PropTypes.string,
-      name: PropTypes.shape({
-        en: PropTypes.string,
-        th: PropTypes.string,
-      }).isRequired,
-      address: PropTypes.shape({
-        en: PropTypes.string,
-        th: PropTypes.string,
-      }).isRequired,
-      lat: PropTypes.string,
-      long: PropTypes.string,
+      stationID: PropTypes.string,
+      areaTH: PropTypes.string,
+      areaEN: PropTypes.string,
     }).isRequired,
     text: PropTypes.string,
   }
@@ -97,9 +89,9 @@ export default class SettingsItem extends Component {
     const { item } = this.props;
 
     this.setState({
-      isEnabled: tags[item.code] === 'true',
-      pollutionTherhold: tags[`${item.code}_pollution_therhold`] ? parseInt(tags[`${item.code}_pollution_therhold`], 10) : DEFAULT_POLLUTION_THERHOLD,
-      cleanlinessTherhold: tags[`${item.code}_cleanliness_therhold`] ? parseInt(tags[`${item.code}_cleanliness_therhold`], 10) : DEFAULT_CLEANLINESS_THERHOLD,
+      isEnabled: tags[item.stationID] === 'true',
+      pollutionTherhold: tags[`${item.stationID}_pollution_therhold`] ? parseInt(tags[`${item.stationID}_pollution_therhold`], 10) : DEFAULT_POLLUTION_THERHOLD,
+      cleanlinessTherhold: tags[`${item.stationID}_cleanliness_therhold`] ? parseInt(tags[`${item.stationID}_cleanliness_therhold`], 10) : DEFAULT_CLEANLINESS_THERHOLD,
     });
   }
 
@@ -149,9 +141,9 @@ export default class SettingsItem extends Component {
     const { item } = this.props;
 
     const tags = {};
-    tags[item.code] = value;
-    tags[`${item.code}_pollution_therhold`] = value ? this.state.pollutionTherhold : false;
-    tags[`${item.code}_cleanliness_therhold`] = value ? this.state.cleanlinessTherhold : false;
+    tags[item.stationID] = value;
+    tags[`${item.stationID}_pollution_therhold`] = value ? this.state.pollutionTherhold : false;
+    tags[`${item.stationID}_cleanliness_therhold`] = value ? this.state.cleanlinessTherhold : false;
 
     console.log('Send tags', tags);
     OneSignal.sendTags(tags);
@@ -213,7 +205,7 @@ export default class SettingsItem extends Component {
     if (text) {
       title = text;
     } else {
-      title = I18n.isTh ? item.address.th : item.address.en;
+      title = I18n.isTh ? item.areaTH : item.areaEN;
     }
 
     return (

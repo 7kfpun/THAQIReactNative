@@ -58,7 +58,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   title: {
-    fontSize: 18,
+    fontSize: 16,
     color: 'black',
     marginLeft: 2,
   },
@@ -137,6 +137,15 @@ export default class DetailsView extends Component {
   render() {
     const { state } = this.props.navigation;
     const { item } = state.params;
+
+    alert(item.stationID);
+
+    const {
+      ratio,
+      refreshing,
+      result,
+      tags,
+    } = this.state;
     tracker.view('History-Details');
     return (
       <View style={styles.container}>
@@ -147,21 +156,21 @@ export default class DetailsView extends Component {
         <ScrollView
           refreshControl={
             <RefreshControl
-              refreshing={this.state.refreshing}
+              refreshing={refreshing}
               onRefresh={this.prepareData}
             />
           }
         >
           {item.ImageUrl && <Image
-            style={{ width, height: this.state.ratio * width }}
+            style={{ width, height: ratio * width }}
             source={{ uri: item.ImageUrl }}
           />}
 
           <View style={{ padding: 10 }}>
             <SettingsItem
               text={I18n.t('notify_title')}
-              item={stationMapper[item.stationID]}
-              tags={this.state.tags || {}}
+              item={item}
+              tags={tags || {}}
               increaseEnabledCount={this.increaseEnabledCount}
               descreaseEnabledCount={this.descreaseEnabledCount}
             />
@@ -171,8 +180,8 @@ export default class DetailsView extends Component {
 
           <IndicatorHorizontal />
 
-          {!this.state.refreshing && indexTypes.map((indexType) => {
-            const { length } = this.state.result;
+          {!refreshing && result && indexTypes.map((indexType) => {
+            const { length } = result;
             return (
               <View key={indexType.key} style={styles.block}>
                 <View style={styles.currentBlock}>
@@ -186,10 +195,10 @@ export default class DetailsView extends Component {
                 </View>
 
                 <View style={{ width: width - 80 }}>
-                  <Chart result={this.state.result.map(i => i[indexType.key])} index={indexType.key} />
+                  <Chart result={result.map(i => i[indexType.key])} index={indexType.key} />
                   <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                    <Text style={styles.dateText}>{moment(this.state.result[0].publish_time).format('lll')}</Text>
-                    <Text style={styles.dateText}>{moment(this.state.result[length - 1].publish_time).format('lll')}</Text>
+                    <Text style={styles.dateText}>{moment(result[0].publish_time).format('lll')}</Text>
+                    <Text style={styles.dateText}>{moment(result[length - 1].publish_time).format('lll')}</Text>
                   </View>
                 </View>
               </View>
