@@ -24,7 +24,6 @@ import SettingsItem from '../elements/settings-item';
 
 import { history } from '../utils/api';
 import { indexTypes } from '../utils/indexes';
-import { stationMapper } from '../utils/stations';
 import I18n from '../utils/i18n';
 import tracker from '../utils/tracker';
 
@@ -137,8 +136,6 @@ export default class DetailsView extends Component {
   render() {
     const { state } = this.props.navigation;
     const { item } = state.params;
-
-    alert(item.stationID);
 
     const {
       ratio,
