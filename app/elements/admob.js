@@ -1,19 +1,14 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import {
-  Platform,
   View,
 } from 'react-native';
 
 import DeviceInfo from 'react-native-device-info';
 import firebase from 'react-native-firebase';
 
-import { config } from '../config';
-
-const AdRequest = firebase.admob.AdRequest;
+const { AdRequest, Banner } = firebase.admob;
 const request = new AdRequest();
-
-const Banner = firebase.admob.Banner;
 
 export default class Admob extends Component {
   static propTypes = {
@@ -56,7 +51,7 @@ export default class Admob extends Component {
       >
         <Banner
           size={this.props.bannerSize}
-          unitId={(this.props.unitId && config.admob[Platform.OS][this.props.unitId]) || config.admob[Platform.OS].banner}
+          unitId={this.props.unitId}
           request={request.build()}
           onAdLoaded={() => {
             console.log('Ads received');

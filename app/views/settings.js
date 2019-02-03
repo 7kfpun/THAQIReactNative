@@ -10,7 +10,6 @@ import {
 
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import OneSignal from 'react-native-onesignal';
-import timer from 'react-native-timer';
 
 import AdMob from '../elements/admob';
 import SettingsGroup from '../elements/settings-group';
@@ -18,7 +17,8 @@ import SettingsGroup from '../elements/settings-group';
 import { OneSignalGetTags } from '../utils/onesignal';
 import { regions } from '../utils/stations';
 import I18n from '../utils/i18n';
-import tracker from '../utils/tracker';
+
+import { config } from '../config';
 
 const CHECK_INTERVAL = 60 * 1000;
 
@@ -73,16 +73,27 @@ export default class SettingsView extends Component {
 
   state = {
     isShowPermissionReminderBlock: false,
+    tags: [],
   };
 
   async componentDidMount() {
     // Request permission on start
-    SettingsView.requestPermissions();
+    OneSignal.init(config.onesignal, { kOSSettingsKeyAutoPrompt: true });
 
+    this.loadEnabledItems();
+  }
+
+  async loadEnabledItems() {
     const tags = await OneSignalGetTags();
+    if (JSON.stringify(tags) !== JSON.stringify(this.state.tags)) {
+      this.setState({ tags, k: Math.random() });
+    }
 
     this.checkPermissions(tags);
-    timer.setInterval(this, 'checkPermissionsInterval', () => this.checkPermissions(tags), CHECK_INTERVAL);
+    this.checkPermissionsInterval = setInterval(
+      () => this.checkPermissions(tags),
+      CHECK_INTERVAL,
+    );
   }
 
   checkPermissions(tags) {
@@ -100,7 +111,11 @@ export default class SettingsView extends Component {
   }
 
   render() {
-    tracker.view('Settings');
+    const {
+      k,
+      tags,
+    } = this.state;
+
     return (
       <View style={styles.container}>
         <View style={styles.titleBlock}>
@@ -113,13 +128,15 @@ export default class SettingsView extends Component {
 
         <ScrollView>
           <FlatList
+            key={k}
             style={styles.list}
             data={regions}
             keyExtractor={item => item.id}
-            renderItem={({ item }) => <SettingsGroup item={item} />}
+            renderItem={({ item }) => <SettingsGroup item={item} tags={tags} />}
           />
         </ScrollView>
-        <AdMob unitId="thaqi-ios-settings-footer" />
+
+        <AdMob unitId={config.admob[Platform.OS]['thaqi-settings-footer']} />
       </View>
     );
   }

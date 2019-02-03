@@ -25,7 +25,8 @@ import SettingsItem from '../elements/settings-item';
 import { history } from '../utils/api';
 import { indexTypes } from '../utils/indexes';
 import I18n from '../utils/i18n';
-import tracker from '../utils/tracker';
+
+import { config } from '../config';
 
 const { width } = Dimensions.get('window');
 
@@ -143,7 +144,7 @@ export default class DetailsView extends Component {
       result,
       tags,
     } = this.state;
-    tracker.view('History-Details');
+
     return (
       <View style={styles.container}>
         <View style={styles.titleBlock}>
@@ -202,7 +203,8 @@ export default class DetailsView extends Component {
             );
           })}
         </ScrollView>
-        <AdMob unitId="thaqi-ios-details-footer" />
+
+        <AdMob unitId={config.admob[Platform.OS]['thaqi-details-footer']} />
       </View>
     );
   }

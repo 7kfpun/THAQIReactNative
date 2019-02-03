@@ -34,7 +34,8 @@ const styles = StyleSheet.create({
     paddingVertical: 15,
   },
   text: {
-    fontWeight: '600',
+    color: 'black',
+    fontWeight: '500',
     fontSize: 16,
   },
   noticeText: {
@@ -69,7 +70,7 @@ export default class SettingsGroup extends Component {
   }
 
   render() {
-    const { item } = this.props;
+    const { item, tags } = this.props;
 
     return (
       <View style={styles.container}>
@@ -88,7 +89,7 @@ export default class SettingsGroup extends Component {
           style={styles.list}
           data={item.stations.filter(i => stationMapper[i])}
           keyExtractor={i => i}
-          renderItem={({ item }) => <SettingsItem item={stationMapper[item]} />}
+          renderItem={({ item }) => <SettingsItem item={stationMapper[item]} tags={tags} />}
         />}
       </View>
     );

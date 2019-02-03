@@ -2,16 +2,15 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import {
-  Dimensions,
-  DeviceEventEmitter,
-  Platform,
-  StyleSheet,
-  NativeModules,
-  Text,
-  ScrollView,
-  View,
-  TouchableOpacity,
   ActivityIndicator,
+  Dimensions,
+  PermissionsAndroid,
+  Platform,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
 } from 'react-native';
 
 import { iOSColors } from 'react-native-typography';
@@ -19,7 +18,6 @@ import firebase from 'react-native-firebase';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import MapView from 'react-native-maps';
 import store from 'react-native-simple-store';
-import timer from 'react-native-timer';
 
 import AdMob from '../elements/admob';
 import Indicator from '../elements/indicator';
@@ -31,9 +29,9 @@ import { indexTypes } from '../utils/indexes';
 import I18n from '../utils/i18n';
 import tracker from '../utils/tracker';
 
-const { width, height } = Dimensions.get('window');
+import { config } from '../config';
 
-const { RNLocation } = NativeModules;
+const { width, height } = Dimensions.get('window');
 
 const ASPECT_RATIO = width / height;
 const LATITUDE = 12.4;
@@ -77,7 +75,7 @@ const styles = StyleSheet.create({
   },
 
   refreshContainer: {
-    top: 35,
+    top: Platform.OS === 'ios' ? 35 : 10,
     justifyContent: 'center',
     alignItems: 'center',
     marginBottom: 12,
@@ -162,99 +160,8 @@ export default class MainView extends Component<{}> {
     gpsEnabled: false,
   };
 
-  async componentDidMount() {
-    this.prepareData();
-    timer.setInterval(this, 'ReloadDataInterval', () => this.prepareData(), RELOAD_INTERVAL);
-
-    const that = this;
-    store.get('selectedIndex').then((selectedIndex) => {
-      if (selectedIndex) {
-        that.setState({
-          selectedIndex,
-        });
-      }
-    });
-
-    if (Platform.OS === 'ios') {
-      RNLocation.requestWhenInUseAuthorization();
-      // RNLocation.requestAlwaysAuthorization();
-      RNLocation.startUpdatingLocation();
-      RNLocation.setDistanceFilter(5.0);
-
-      let first = true;
-      DeviceEventEmitter.addListener('locationUpdated', (location) => {
-        console.log('Location updated', location);
-        this.setState({
-          location: location.coords,
-          gpsEnabled: true,
-        });
-
-        if (first) {
-          first = false;
-          if (MainView.isOutOfBound(location.coords.latitude, location.coords.longitude)) {
-            timer.setTimeout(this, 'MoveToDefault', () => {
-              this.map.animateToRegion(MainView.getDefaultLocation());
-            }, 800);
-          } else {
-            timer.setTimeout(this, 'MoveToDefault', () => {
-              this.map.animateToRegion(this.getCurrentLocation());
-            }, 500);
-          }
-        }
-      });
-    } else {
-      // const granted = await PermissionsAndroid.request(
-      //   PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
-      //   {
-      //     title: '應用程序需要訪問您的位置',
-      //     message: '應用程序需要訪問您的位置',
-      //   },
-      // );
-      // console.log('granted', granted);
-      // if (granted) {
-      //   FusedLocation.setLocationPriority(FusedLocation.Constants.HIGH_ACCURACY);
-      //
-      //   console.log('Getting GPS location');
-      //   // Get location once.
-      //   const location = await FusedLocation.getFusedLocation();
-      //   if (location.latitude && location.longitude) {
-      //     this.setState({
-      //       location: {
-      //         latitude: location.latitude,
-      //         longitude: location.longitude,
-      //       },
-      //       gpsEnabled: true,
-      //     });
-      //
-      //     if (MainView.isOutOfBound(location.latitude, location.longitude)) {
-      //       this.map.animateToRegion(MainView.getDefaultLocation());
-      //     } else {
-      //       this.map.animateToRegion(this.getCurrentLocation());
-      //     }
-      //   }
-      //
-      //   // Set options.
-      //   FusedLocation.setLocationPriority(FusedLocation.Constants.BALANCED);
-      //   FusedLocation.setLocationInterval(3000);
-      //   FusedLocation.setFastestLocationInterval(1500);
-      //   FusedLocation.setSmallestDisplacement(10);
-      //
-      //   // Keep getting updated location.
-      //   FusedLocation.startLocationUpdates();
-      //
-      //   // Place listeners.
-      //   this.subscription = FusedLocation.on('fusedLocation', (updatedLocation) => {
-      //     console.log('GPS location updated', updatedLocation);
-      //     this.setState({
-      //       location: {
-      //         latitude: updatedLocation.latitude,
-      //         longitude: updatedLocation.longitude,
-      //       },
-      //       gpsEnabled: true,
-      //     });
-      //   });
-      // }
-    }
+  componentWillUnmount() {
+    this.reloadFetchLatestDataInterval && clearInterval(this.reloadFetchLatestDataInterval);
   }
 
   getCurrentLocation() {
@@ -265,6 +172,61 @@ export default class MainView extends Component<{}> {
       longitudeDelta: this.state.gpsEnabled ? 0.6 * ASPECT_RATIO : LONGITUDE_DELTA,
     };
   }
+
+  requestLocationPermission = async () => {
+    if (Platform.OS === 'ios') {
+      navigator.geolocation.requestAuthorization();
+    } else {
+      try {
+        const granted = await PermissionsAndroid.request(
+          PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+          {
+            title: I18n.t('location_permission.title'),
+            message: I18n.t('location_permission.description'),
+          },
+        );
+        console.log(granted);
+        if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+          this.setState({
+            gpsEnabled: true,
+          });
+          this.checkLocation();
+        }
+      } catch (err) {
+        console.warn(err);
+      }
+    }
+  };
+
+  loadMapContent = async () => {
+    const that = this;
+    store.get('selectedIndex').then((selectedIndex) => {
+      if (selectedIndex) {
+        that.setState({
+          selectedIndex,
+        });
+      }
+    });
+
+    if (Platform.OS === 'ios') {
+      this.checkLocation();
+    } else {
+      const granted = await PermissionsAndroid.check(PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION);
+
+      if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+        this.checkLocation();
+      } else {
+        this.requestLocationPermission();
+      }
+    }
+
+    this.prepareData();
+
+    this.reloadFetchLatestDataInterval = setInterval(() => {
+      this.prepareData();
+      tracker.logEvent('reload-fetch-latest-data');
+    }, RELOAD_INTERVAL);
+  };
 
   prepareData() {
     this.setState({ isLoading: true }, () => {
@@ -285,6 +247,55 @@ export default class MainView extends Component<{}> {
     });
   }
 
+  checkLocation() {
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        console.log('geolocation', position);
+        this.setState({
+          location: position.coords,
+          gpsEnabled: true,
+        });
+
+        const moveLocation = MainView.isOutOfBound(
+          position.coords.latitude,
+          position.coords.longitude
+        )
+          ? MainView.getDefaultLocation()
+          : this.getCurrentLocation();
+        try {
+          this.map.animateToRegion(moveLocation);
+        } catch (err) {
+          console.error(`Map animateToRegion failed: ${JSON.stringify(err)}`);
+        }
+      },
+      error => {
+        this.requestLocationPermission();
+        if (!this.state.isLocationMovedToDefault) {
+          // alert(error.message);
+          this.setState({ isLocationMovedToDefault: true });
+          setTimeout(() => {
+            try {
+              console.log(error);
+              this.map.animateToRegion(MainView.getDefaultLocation());
+            } catch (err) {
+              console.error(
+                `Map animateToRegion failed: ${JSON.stringify(err)}`
+              );
+            }
+          }, 2000);
+        }
+      },
+      { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
+    );
+
+    this.watchID = navigator.geolocation.watchPosition(position => {
+      this.setState({
+        location: position.coords,
+        gpsEnabled: true,
+      });
+    });
+  }
+
   render() {
     const { navigation } = this.props;
 
@@ -295,6 +306,7 @@ export default class MainView extends Component<{}> {
           ref={(ref) => { this.map = ref; }}
           initialRegion={this.getCurrentLocation()}
           // onRegionChange={region => this.onRegionChange(region)}
+          onMapReady={this.loadMapContent}
           showsUserLocation={true}
         >
           {this.state.aqiResult && this.state.aqiResult.stations
@@ -384,7 +396,7 @@ export default class MainView extends Component<{}> {
             ))}
           </ScrollView>
 
-          <AdMob unitId="thaqi-ios-main-footer" />
+          <AdMob unitId={config.admob[Platform.OS]['thaqi-main-footer']} />
         </View>
       </View>
     );

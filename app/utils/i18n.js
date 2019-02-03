@@ -26,6 +26,11 @@ I18n.translations = {
     notify_cleanliness_therhold: 'Notice me when AQI is below',
     aqi_full: 'Air Quality Index (AQI)',
 
+    location_permission: {
+      title: 'Enable Location Service',
+      description: 'We will select the nearest monitoring station for you automatically based on your current location',
+    },
+
     permissions_required: 'Notification permission required',
     too_small_therhold: 'The value is too small, you would get lots of notifications',
     too_large_therhold: 'The value is too large, you would get lots of notifications',
@@ -75,6 +80,11 @@ I18n.translations = {
     notify_cleanliness_title: 'เมื่อคุณภาพอากาศดีขึ้น',
     notify_cleanliness_therhold: 'แจ้งให้ฉันทราบเมื่อ AQI ต่ำกว่า',
     aqi_full: 'คุณภาพอากาศ (AQI)',
+
+    location_permission: {
+      title: 'เปิดใช้งานบริการระบุตำแหน่ง',
+      description: 'เราจะเลือกสถานีตรวจสอบที่ใกล้ที่สุดสำหรับคุณโดยอัตโนมัติตามตำแหน่งปัจจุบันของคุณ',
+    },
 
     permissions_required: 'คุณต้องเปิดการแจ้งเตือน',
     too_small_therhold: 'ค่าที่คุณตั้งไว้ต่ำหรือคุณจะได้รับการแจ้งเตือนเป็นจำนวนมาก',

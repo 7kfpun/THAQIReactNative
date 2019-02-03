@@ -12,12 +12,12 @@ import {
   View,
 } from 'react-native';
 
+import { iOSColors } from 'react-native-typography';
 import OneSignal from 'react-native-onesignal';
 
 import Marker from '../elements/marker';
 
 import { indexRanges } from '../utils/indexes';
-import { OneSignalGetTags } from '../utils/onesignal';
 import I18n from '../utils/i18n';
 import tracker from '../utils/tracker';
 
@@ -33,12 +33,12 @@ const styles = StyleSheet.create({
     fontSize: 15,
   },
   input: {
-    width: 30,
-    borderBottomColor: '#EEEEEE',
-    borderBottomWidth: 1,
+    fontSize: 12,
+    borderBottomColor: iOSColors.midGray,
+    borderBottomWidth: Platform.OS === 'ios' ? 1 : 0,
     textAlign: 'center',
-    marginRight: 8,
-    height: 22,
+    marginRight: 10,
+    height: Platform.OS === 'ios' ? 28 : 35,
   },
   noticeBlock: {
     flexDirection: 'row',
@@ -85,8 +85,7 @@ export default class SettingsItem extends Component {
   };
 
   async componentDidMount() {
-    const tags = await OneSignalGetTags();
-    const { item } = this.props;
+    const { item, tags } = this.props;
 
     this.setState({
       isEnabled: tags[item.stationID] === 'true',
@@ -218,7 +217,7 @@ export default class SettingsItem extends Component {
             <Switch
               onValueChange={value => this.setNotification(value)}
               value={this.state.isEnabled}
-              tintColor="#EEEEEE"
+              trackColor="#EEEEEE"
             />
           </View>
         </View>
@@ -246,7 +245,6 @@ export default class SettingsItem extends Component {
             </View>
             <Text style={styles.noticeDescriptionText}>({I18n.t('notify_pollution_title')})</Text>
             <Slider
-              style={{ width: window.width - 20 }}
               step={1}
               value={this.state.pollutionTherhold}
               minimumValue={1}
@@ -277,7 +275,6 @@ export default class SettingsItem extends Component {
             </View>
             <Text style={styles.noticeDescriptionText}>({I18n.t('notify_cleanliness_title')})</Text>
             <Slider
-              style={{ width: window.width - 20 }}
               step={1}
               value={this.state.cleanlinessTherhold}
               minimumValue={1}

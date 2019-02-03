@@ -1,4 +1,4 @@
-import firebase from 'react-native-firebase';
+// import firebase from 'react-native-firebase';
 
 import { config } from '../config';
 
@@ -8,8 +8,8 @@ const aqi = () => {
     .then(res => res.json())
     .catch((err) => {
       console.log('Request for aqi failed', err);
-      firebase.crash().log('Request for aqi failed');
-      firebase.crash().report(JSON.stringify(err));
+      // firebase.crash().log('Request for aqi failed');
+      // firebase.crash().report(JSON.stringify(err));
     });
 };
 
@@ -22,8 +22,8 @@ const history = (station) => {
     .then(res => res.json())
     .catch((err) => {
       console.log('Request for aqi history failed', err);
-      firebase.crash().log('Request for history failed');
-      firebase.crash().report(JSON.stringify(err));
+      // firebase.crash().log('Request for history failed');
+      // firebase.crash().report(JSON.stringify(err));
     });
 };
 

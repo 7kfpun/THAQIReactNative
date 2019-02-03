@@ -10,12 +10,11 @@ import {
 
 import { iOSColors } from 'react-native-typography';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import SafariView from 'react-native-safari-view';
 
 import AdMob from '../elements/admob';
 
+import { openURL } from '../utils/helpers';
 import I18n from '../utils/i18n';
-import tracker from '../utils/tracker';
 
 import { config } from '../config';
 
@@ -104,23 +103,16 @@ export default class HelpView extends Component {
     tabBarIcon: ({ tintColor }) => <Icon name="info-outline" size={21} color={tintColor} />,
   };
 
-  static openFeedbackUrl() {
-    SafariView.isAvailable()
-      .then(SafariView.show({
-        url: I18n.isTh ? config.feedbackUrl.th : config.feedbackUrl.en,
-      }))
-      .catch((error) => {
-        console.log(error);
-      });
+  openFeedbackUrl = () => {
+    openURL(I18n.isTh ? config.feedbackUrl.th : config.feedbackUrl.en);
   }
 
   render() {
-    tracker.view('Help');
     return (
       <View style={styles.container}>
         <View style={styles.titleBlock}>
           <Text style={styles.title}>{I18n.t('help_definition')}</Text>
-          <TouchableOpacity onPress={HelpView.openFeedbackUrl}>
+          <TouchableOpacity onPress={this.openFeedbackUrl}>
             <Icon name="mail-outline" size={30} color={iOSColors.gray} />
           </TouchableOpacity>
         </View>
@@ -139,7 +131,8 @@ export default class HelpView extends Component {
               </View>))}
           </View>
         </ScrollView>
-        <AdMob unitId="thaqi-ios-help-footer" />
+
+        <AdMob unitId={config.admob[Platform.OS]['thaqi-help-footer']} />
       </View>
     );
   }

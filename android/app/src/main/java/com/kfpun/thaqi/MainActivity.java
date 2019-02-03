@@ -1,4 +1,4 @@
-package com.thaqi;
+package com.kfpun.thaqi;
 
 import com.facebook.react.ReactActivity;
 

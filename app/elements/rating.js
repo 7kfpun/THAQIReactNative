@@ -12,7 +12,6 @@ import * as StoreReview from 'react-native-store-review';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import StarRating from 'react-native-star-rating';
 import store from 'react-native-simple-store';
-import timer from 'react-native-timer';
 
 import { config } from '../config';
 import I18n from '../utils/i18n';
@@ -84,14 +83,13 @@ export default class Rating extends React.Component {
       }
     });
 
-    timer.clearTimeout(this, 'ShowRatingBlock');
-    timer.setTimeout(this, 'ShowRatingBlock', () => {
+    this.showRatingTimeout = setTimeout(() => {
       this.setState({ isRatingClose: false });
     }, RATE_POPUP_TIME);
   }
 
   componentWillUnmount() {
-    timer.clearTimeout(this, 'ShowRatingBlock');
+    this.showRatingTimeout && clearTimeout(this.showRatingTimeout);
   }
 
   onStarRatingPress(rating) {
@@ -103,9 +101,9 @@ export default class Rating extends React.Component {
       if (StoreReview.isAvailable) {
         StoreReview.requestReview();
       } else if (Platform.OS === 'ios') {
-        Linking.openURL('itms-apps://itunes.apple.com/app/id1330362100');
+        Linking.openURL(config.appStore);
       } else if (Platform.OS === 'android') {
-        Linking.openURL('market://details?id=com.kfpun.thaqi');
+        Linking.openURL(config.googlePlay);
       }
     }
 

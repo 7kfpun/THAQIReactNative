@@ -1,15 +1,13 @@
-import firebase from 'react-native-firebase';
 import OneSignal from 'react-native-onesignal';
 
 exports.OneSignalGetTags = () => new Promise((resolve, reject) => {
   try {
-    const trace = firebase.perf().newTrace('onesignal_get_tags');
-    trace.start();
     OneSignal.getTags((tags) => {
-      trace.stop();
+      console.log('OneSignal tags', tags);
       resolve(tags);
     });
   } catch (err) {
+    console.log('OneSignal tags', err);
     reject(err);
   }
 });

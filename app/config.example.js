@@ -1,14 +1,28 @@
 exports.config = {
-  aqiUrl: 'http://air4thai.pcd.go.th/services/getAQI_JSON.php',
+  appStore: '',
+  googlePlay: '',
+  aqiUrl: '',
+  aqiHistoryUrl: '',
+  feedbackUrl: {
+    th: '',
+    en: '',
+  },
   admob: {
     ios: {
-      'thaqi-ios-main-footer': '',
-      'thaqi-ios-list-footer': '',
+      'thaqi-main-footer': '',
+      'thaqi-list-footer': '',
+      'thaqi-details-footer': '',
+      'thaqi-settings-footer': '',
+      'thaqi-help-footer': '',
     },
     android: {
-      'thaqi-ios-main-footer': '',
-      'thaqi-ios-list-footer': '',
+      'thaqi-main-footer': '',
+      'thaqi-list-footer': '',
+      'thaqi-details-footer': '',
+      'thaqi-settings-footer': '',
+      'thaqi-help-footer': '',
     },
   },
   segment: '',
+  onesignal: '',
 };

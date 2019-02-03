@@ -18,7 +18,6 @@ import Help from './views/help';
 import I18n from './utils/i18n';
 import tracker from './utils/tracker';
 
-
 if (!__DEV__) {
   console.log = () => {};
 }
